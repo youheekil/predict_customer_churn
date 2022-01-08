@@ -79,11 +79,6 @@ def encoder_helper(data_frame, category_lst, response):
     input:
             df: pandas dataframe
             category_lst: list of columns that contain categorical features
-<<<<<<< Updated upstream
-            response: string of response name
-=======
-            response: string of response name 
->>>>>>> Stashed changes
     output:
             df: pandas dataframe with new columns for
     '''
@@ -102,11 +97,6 @@ def perform_feature_engineering(data_frame, response):
     '''
     input:
               data_frame: pandas dataframe
-<<<<<<< Updated upstream
-              response: string of response name
-=======
-              response: string of response name 
->>>>>>> Stashed changes
     output:
               X_train: X training data
               X_test: X testing data
