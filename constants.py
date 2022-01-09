@@ -4,6 +4,7 @@ RESPONSE = 'Churn'
 DATA_PATH = "./data/bank_data.csv"
 EDA_FILEPATH = "./images/eda/"
 RESULTS_FILEPATH = "./images/results/"
+MODEL_FILEPATH = "./models/"
 CLA_REPORT_IMAGE_FILEPATH = "./images/results"
 PARAM_GRID =  {
         'n_estimators': [200, 500], 
