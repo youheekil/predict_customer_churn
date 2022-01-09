@@ -43,13 +43,7 @@ def perform_eda(data_frame):
             None
     '''
     sns.set_style('whitegrid')
-    eda_column_names = [
-        "Heatmap",
-        "Total_Trans",
-        "Churn",
-        "Customer_Age",
-        "Marital_Status"]
-
+    eda_column_names = constants.EDA_COL_NAMES
     for column_name in eda_column_names:
         plt.figure(figsize=(20, 10))
         if column_name == "Heatmap":
@@ -89,7 +83,6 @@ def encoder_helper(data_frame, category_lst, response):
             lst.append(group.loc[val])
         col_name = f"{col}_Churn"
         data_frame[col_name] = lst
-
     return data_frame
 
 
@@ -104,7 +97,6 @@ def perform_feature_engineering(data_frame, response):
               y_test: y testing data
     '''
     X = pd.DataFrame()
-
     keep_cols = [
         'Customer_Age',
         'Dependent_count',
@@ -125,10 +117,8 @@ def perform_feature_engineering(data_frame, response):
         'Marital_Status_Churn',
         'Income_Category_Churn',
         'Card_Category_Churn']
-
     X[keep_cols] = data_frame[keep_cols]
     y = data_frame[response]
-
     # train test split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.3, random_state=42)
@@ -156,9 +146,7 @@ def classification_report_image(y_data):
     y_train_preds_rf = y_data[3]
     y_test_preds_lr = y_data[4]
     y_test_preds_rf = y_data[5]
-
     model_type = ['Logistic Regression', 'Random Forest']
-
     # logistic report
     for model in model_type:
         plt.rc('figure', figsize=(5, 5))
@@ -234,22 +222,17 @@ def train_models(X_train, X_test, y_train, y_test):
     output:
               none
     '''
-
     # random forest classifier & logistic regression
     rfc = RandomForestClassifier(random_state=42)
     lrc = LogisticRegression()
-
     # cross validation
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=constants.PARAM_GRID, cv=5)
     cv_rfc.fit(X_train, y_train)
     lrc.fit(X_train, y_train)
-
     y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
     y_test_preds_rf = cv_rfc.best_estimator_.predict(X_test)
-
     y_train_preds_lr = lrc.predict(X_train)
     y_test_preds_lr = lrc.predict(X_test)
-
     # plot
     lrc_plot = plot_roc_curve(lrc, X_test, y_test)
     rfc_disp = plot_roc_curve(cv_rfc.best_estimator_, X_test, y_test)
@@ -259,7 +242,6 @@ def train_models(X_train, X_test, y_train, y_test):
     lrc_plot.plot(ax=ax, alpha=0.8)
     plt.savefig(constants.RESULTS_FILEPATH + 'roc_plot.png')
     plt.close()
-
     response_data = [
         y_train,
         y_test,
@@ -268,9 +250,22 @@ def train_models(X_train, X_test, y_train, y_test):
         y_test_preds_lr,
         y_test_preds_rf]
     classification_report_image(y_data=response_data)
-    feature_importance_plot(cv_rfc, X_test, constants.RESULTS_FILEPATH)
-
+    feature_importance_plot(cv_rfc.best_estimator_, X_test, constants.RESULTS_FILEPATH)
     # save best model
     joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
     joblib.dump(lrc, './models/logistic_model.pkl')
-    
+
+
+if __name__ == "__main__":
+    _data_path = constants.DATA_PATH
+    print("done1")
+    data_df = import_data(data_path = _data_path)
+    print("done2")
+    perform_eda(data_df)
+    print("done3")
+    encoded_data_df = encoder_helper(data_df, constants.CATEGORY_LST, constants.RESPONSE)
+    print("done4")
+    x_train_, x_test_, y_train_, y_test_ = perform_feature_engineering(encoded_data_df, constants.RESPONSE)
+    print("done5")
+    train_models(x_train_, x_test_, y_train_, y_test_)
+ 

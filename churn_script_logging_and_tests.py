@@ -1,5 +1,6 @@
 import logging
-from churn_library import import_data, perform_eda, encoder_helper, perform_feature_engineering, train_models
+import pytest
+from churn_library import import_data, perform_eda
 import constants
 
 
@@ -35,10 +36,11 @@ def test_eda(perform_eda):
     '''
     test perform eda function - test creation of images related eda
     '''
-    perform_eda(df=import_data(constants.DATA_PATH))
-    for col in constants.CATEGORY_LST:
+    perform_eda(data_frame=import_data(constants.DATA_PATH))
+    for col in constants.EDA_COL_NAMES:
             try:
-                 with open(f"{constants.EDA_FILEPATH}{col}.png", 'r'):
+                 img_file_pth = f"{constants.EDA_FILEPATH}{col}.png"
+                 with open(img_file_pth, 'r'):
                      logging.info("Testing perform_eda: SUCCESS")
             except FileNotFoundError as err:
                 logging.error("Testing perform_eda: generated images missing")
@@ -50,7 +52,9 @@ def test_encoder_helper(encoder_helper):
     test encoder helper
     '''
     try:
-        encoded_data = encoder_helper(import_data(constants.DATA_PATH), constants.CATGORY_LST, constants.RESULTS)
+        encoded_data = encoder_helper(import_data(constants.DATA_PATH), 
+                                                    constants.CATGORY_LST, 
+                                                    constants.RESULTS)
         logging.info("Testing test_encoder_helper: SUCCESS")
     except KeyError as err:
         logging.error("Testing test_encoder_helper: The file doesn't appear to have rows and columns")
@@ -78,6 +82,11 @@ def test_perform_feature_engineering(perform_feature_engineering):
     test perform_feature_engineering
     '''
     pass
+# TODO: CHECK 4 DATA - # COLUMNS - feature sequences fixtures - returns 4 series containing features sequences
+# TODO: len(x_train) == len(y_train)
+# TODO: len(x_test) = len(y_test)
+# 
+
 
 
 def test_train_models(train_models):
@@ -85,3 +94,9 @@ def test_train_models(train_models):
     test train_models
     '''
     pass
+# TODO: check if models can be loaded it well 
+# TODO: check number of images stored in the folder 
+
+if __name__ == '__main__':
+    test_import(import_data)
+    test_eda(perform_eda)

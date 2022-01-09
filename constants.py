@@ -1,4 +1,5 @@
 CATEGORY_LST = ['Gender', 'Education_Level', 'Marital_Status', 'Income_Category', 'Card_Category']
+EDA_COL_NAMES = ["Heatmap", "Total_Trans", "Churn", "Customer_Age", "Marital_Status"]
 RESPONSE = 'Churn'
 DATA_PATH = "./data/bank_data.csv"
 EDA_FILEPATH = "./images/eda/"
