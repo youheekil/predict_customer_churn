@@ -66,6 +66,7 @@ def perform_eda(data_frame):
         plt.savefig(f"{constants.EDA_FILEPATH}{column_name}.png")
         plt.close()
 
+
 def encoder_helper(data_frame, category_lst, response):
     '''
     helper function to turn each categorical column into a new column with
@@ -147,7 +148,6 @@ def classification_report_image(y_data):
     y_test_preds_lr = y_data[4]
     y_test_preds_rf = y_data[5]
     model_type = ['Logistic Regression', 'Random Forest']
-    # logistic report
     for model in model_type:
         plt.rc('figure', figsize=(5, 5))
         if model == 'Logistic Regression':
@@ -165,6 +165,8 @@ def classification_report_image(y_data):
                     classification_report(
                         y_test, y_test_preds_lr)), {
                     'fontsize': 10}, fontproperties='monospace')
+            plt.axis('off')
+            plt.savefig(f"{constants.RESULTS_FILEPATH}logistic_results.png")
         elif model == 'Random Forest':
             plt.text(0.01, 1.25, str('Random Forest Train'), {
                      'fontsize': 10}, fontproperties='monospace')
@@ -180,9 +182,8 @@ def classification_report_image(y_data):
                     classification_report(
                         y_train, y_train_preds_rf)), {
                     'fontsize': 10}, fontproperties='monospace')
-        plt.axis('off')
-        plt.savefig(f"{constants.RESULTS_FILEPATH}{model}_report.png")
-
+            plt.axis('off')
+            plt.savefig(f"{constants.RESULTS_FILEPATH}rf_results.png")
 
 def feature_importance_plot(model, X_data, output_pth):
     '''
@@ -250,22 +251,20 @@ def train_models(X_train, X_test, y_train, y_test):
         y_test_preds_lr,
         y_test_preds_rf]
     classification_report_image(y_data=response_data)
-    feature_importance_plot(cv_rfc.best_estimator_, X_test, constants.RESULTS_FILEPATH)
+    feature_importance_plot(
+        cv_rfc.best_estimator_,
+        X_test,
+        constants.RESULTS_FILEPATH)
     # save best model
     joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
     joblib.dump(lrc, './models/logistic_model.pkl')
 
 
 if __name__ == "__main__":
-    _data_path = constants.DATA_PATH
-    print("done1")
-    data_df = import_data(data_path = _data_path)
-    print("done2")
+    data_df = import_data(data_path=constants.DATA_PATH)
     perform_eda(data_df)
-    print("done3")
-    encoded_data_df = encoder_helper(data_df, constants.CATEGORY_LST, constants.RESPONSE)
-    print("done4")
-    x_train_, x_test_, y_train_, y_test_ = perform_feature_engineering(encoded_data_df, constants.RESPONSE)
-    print("done5")
+    encoded_data_df = encoder_helper(
+        data_df, constants.CATEGORY_LST, constants.RESPONSE)
+    x_train_, x_test_, y_train_, y_test_ = perform_feature_engineering(
+        encoded_data_df, constants.RESPONSE)
     train_models(x_train_, x_test_, y_train_, y_test_)
- 
