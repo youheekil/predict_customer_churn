@@ -142,8 +142,8 @@ def test_train_models(train_test_data):
         logging.error("Testing train_models: The models were not saved properly")
         raise err
     for img_name in [
-        "Logistic Regression_report",
-        "Random Forest_report",
+        "logistic_results",
+        "rf_results",
         "feature_importances_plot", 
         "roc_plot"]:
         try:

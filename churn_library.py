@@ -64,7 +64,7 @@ def perform_eda(data_frame):
         elif column_name == "Total_Trans":
             sns.displot(data_frame['Total_Trans_Ct'])
         plt.savefig(f"{constants.EDA_FILEPATH}{column_name}.png")
-        plt.close()
+        plt.close("all")
 
 
 def encoder_helper(data_frame, category_lst, response):
@@ -167,6 +167,7 @@ def classification_report_image(y_data):
                     'fontsize': 10}, fontproperties='monospace')
             plt.axis('off')
             plt.savefig(f"{constants.RESULTS_FILEPATH}logistic_results.png")
+            plt.close()
         elif model == 'Random Forest':
             plt.text(0.01, 1.25, str('Random Forest Train'), {
                      'fontsize': 10}, fontproperties='monospace')
@@ -184,6 +185,7 @@ def classification_report_image(y_data):
                     'fontsize': 10}, fontproperties='monospace')
             plt.axis('off')
             plt.savefig(f"{constants.RESULTS_FILEPATH}rf_results.png")
+            plt.close()
 
 def feature_importance_plot(model, X_data, output_pth):
     '''
@@ -242,7 +244,8 @@ def train_models(X_train, X_test, y_train, y_test):
     rfc_disp.plot(ax=ax, alpha=0.8)
     lrc_plot.plot(ax=ax, alpha=0.8)
     plt.savefig(constants.RESULTS_FILEPATH + 'roc_plot.png')
-    plt.close()
+    plt.close("all")
+
     response_data = [
         y_train,
         y_test,
