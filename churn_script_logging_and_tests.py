@@ -37,8 +37,8 @@ def encoded_data():
 
     try:
         _encoded_data = encoder_helper(import_data(DATA_PATH), 
-                                                    CATEGORY_LST, 
-                                                    RESPONSE)
+                                        CATEGORY_LST, 
+                                        RESPONSE)
         logging.info("Testing test_encoder_helper: SUCCESS")
     except KeyError as err:
         logging.error("Testing test_encoder_helper: The file doesn't appear to have rows and columns")
@@ -94,7 +94,7 @@ def test_encoder_helper(encoded_data):
         assert encoded_data.shape[0] > 0
         assert encoded_data.shape[1] > 0
     except AssertionError as err:
-        logging.error("Testing test_encoder_helper: The dataframe has an issue with containig either rows or columns")
+        logging.error("Testing test_encoder_helper: The dataframe has an issue with containing either rows or columns")
         raise err
     
     try:
@@ -116,7 +116,7 @@ def test_perform_feature_engineering(encoded_data):
         _X_train, _X_test, _y_train, _y_test = perform_feature_engineering(encoded_data, RESPONSE)
     except BaseException:
         logging.error(
-            "Testing test_perform_feature_engineering helper: the splitted data mismatch")
+            "Testing test_perform_feature_engineering helper: The splitted data are mismatched")
         raise 
     
     try:
@@ -125,7 +125,7 @@ def test_perform_feature_engineering(encoded_data):
         logging.info("Testing test_perform_feature_engineering: SUCCESS")
     except AssertionError as err:
         logging.error(
-            "Testing test_perform_feature_engineering helper: the number of each train and test data values mismatch ")
+            "Testing test_perform_feature_engineering helper: The number of each train and test data values are mismatched")
         raise err
 
 
