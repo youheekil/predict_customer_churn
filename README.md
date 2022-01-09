@@ -3,27 +3,30 @@
 - Project **Predict Customer Churn** of ML DevOps Engineer Nanodegree Udacity
 
 ## Project Description
-In this project, we will identify credit card customers that are most likely to churn. 
+We would like to identify and predict credit card customers that are most likely to churn. The main aim of this project is to build a customer churn prediction model and implement all of the clean code principles based on the provided code in `churn_notebook.ipynb`. 
 
-How do we identify (and later intervene with) customers who are likely to churn 
-
-The dataset for this project was pulled from [Kaggle](https://www.kaggle.com/sakshigoyal7/credit-card-customers/code)
+The dataset for this project was pulled from [Kaggle](https://www.kaggle.com/sakshigoyal7/credit-card-customers/code). 
 
 
 ## Running Files
-How do you run your files? What should happen when you run your files?
+First, we create virtual environment (`venv`) and activate the newly created virtual environment. 
 
 
-
-#### set virtual env
-```shell
-git clone
+#### 1. create and set virtual environment (venv)
+```bash
+git clone <github HTTPS filepath>
 virtualenv venv
 source venv/bin/activate
+```
+### 2. install requirements.txt
+Then install all dependencies of this file. 
+
+```bash 
 pip install -r requirements.txt
 ```
-#### for getting requirements.txt
-```shell
-pip install pipreqs
-pipreqs <filepath> 
+### 3. for testing the code on `churn_library.py`
+
+```bash 
+pip install pytest
+pytest churn_script_logging_and_tests.py
 ```
